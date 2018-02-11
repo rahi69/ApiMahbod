@@ -5,8 +5,8 @@ $config['db']['user'] = 'root';
 $config['db']['pass'] = '';
 $config['db']['name'] = 'paint_tbl';
 
-$config_gallery[0] = 'all';
-$config_gallery[1] = 'image';
-$config_gallery[2] = 'video';
+$config['type'][0] = 'all';
+$config['type'][1] = 'image';
+$config['type'][2] = 'video';
 
 ?>
