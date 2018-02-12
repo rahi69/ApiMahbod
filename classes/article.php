@@ -5,7 +5,6 @@ class article
     public function __construct()
     {
         require_once $_SERVER["DOCUMENT_ROOT"] . "/ApiMahbod/config/db.php";
-
     }
 
     /**
@@ -14,7 +13,6 @@ class article
     public function GetArticleList()
     {
         $statusCode = new codeStatus();
-        $data = [];
         $db = new db();
         $db->connection();
 //        $page = intval($_POST['page']) - 1;
@@ -31,7 +29,7 @@ class article
         $requestContentType = $_SERVER['HTTP_ACCEPT'];
         $statusCode->set_http($requestContentType, $statusCode);
         if (strpos($requestContentType, 'application/json') != false) {
-            echo json_encode(array('Data' => $data, 'Code' => '200', 'Message' => 'Sucess Request'));
+            echo json_encode(array('Data' => $data, 'Code' => '200', 'Message' => 'Success Request'));
             exit;
 
         } else {
@@ -43,7 +41,7 @@ class article
     public function GetArticleByID()
     {
         $statusCode = new codeStatus();
-        $data = [];
+//        $data = [];
         $db = new db();
         $db->connection();
         $id = intval($_POST['id_article']);

@@ -1,7 +1,7 @@
 <?php
-include_once '../config/config.php';
+require_once '../config/config.php';
 
-class Gallery
+class gallery
 {
     public function __construct()
     {
@@ -9,26 +9,67 @@ class Gallery
 
     }
 
-    public function GetGalleryContact($type)
+    public function GetGalleryContact()
     {
-        global $config;
-        switch ($type)
-        {
-            case 0 : $type = $config["type"][0];break;
-            case 1 : $type = $config["type"][1];break;
-            case 2 : $type = $config["type"][2];break;
-            default: $type = $config["type"][0];break;
-
-        }
+       $type = $_POST['type'];
+//        switch ($type)
+//        {
+//            case 0 : $type = $config["type"][0];break;
+//            case 1 : $type = $config["type"][1];break;
+//            case 2 : $type = $config["type"][2];break;
+//            default: $type = $config["type"][0];break;
+//        }
 //        if($type==null)
 //        {
 //        }
         $statusCode = new codeStatus();
-        $data = [];
+        $data=array();
         $db = new db();
         $db->connection();
 //        $page = intval($_POST['page']) - 1;
 //        $offset = $page * 5;
+        if($type == 0){
+            $query = $db->query("SELECT * FROM tblgallery ORDER BY id DESC");
+        }else {
+            $query = $db->query("SELECT * FROM `tblgallery` WHERE `type` =" . $type . "ORDER BY id DESC");
+        }$result = $query->fetch_assoc();
+        if ($result !== null) {
+            $data = $result;
+            echo $statusCode->get_http_message("200");
+            exit;
+        }
+        else {
+            $data = array();
+            echo $statusCode->get_http_message("404");
+            exit();
+        }
+
+//        $requestContentType = $_SERVER['HTTP_ACCEPT'];
+//        $statusCode->set_http($requestContentType, $statusCode);
+//        if (strpos($requestContentType, 'application/json') != false) {
+//            echo json_encode($data);
+//        }
+
+        $requestContentType = $_SERVER['HTTP_ACCEPT'];
+        $statusCode->set_http($requestContentType, $statusCode);
+        if (strpos($requestContentType, 'application/json') != false) {
+            echo json_encode(array('Data' => $data, 'Code' => '200', 'Message' => 'Sucess Request'));
+            exit;
+
+        } else {
+            echo json_encode(array('Code' => '404', 'Message' => 'NotFound !!'));
+            exit;
+        }
+    }
+}
+
+
+
+
+
+
+
+        /*****************
         $query = $db->query("SELECT * FROM tblgallery WHERE $type ORDER BY id DESC");
         $result = $query->fetch_all();
         if ($result != null)
@@ -52,3 +93,4 @@ class Gallery
 
 }
 
+*********/
