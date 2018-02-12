@@ -8,11 +8,15 @@
 
 class aboutMe
 {
+    public function __construct()
+    {
+        require_once $_SERVER["DOCUMENT_ROOT"] . "/ApiMahbod/config/db.php";
+
+    }
     public function GetAboutMeList()
     {
         $statusCode = new codeStatus();
         $data = [];
-        require_once $_SERVER["DOCUMENT_ROOT"] . "/ApiMahbod/config/db.php";
         $db = new db();
         $db->connection();
 //        $page = intval($_POST['page']) - 1;
@@ -20,20 +24,24 @@ class aboutMe
         $query = $db->query("SELECT * FROM tbl_aboutme ORDER BY id DESC");
         $result = $query->fetch_all();
         if ($result != null) {
-            $data["result"] = $result;
+            $data= $result;
             $statusCode->get_http_message("200");
 
         } else {
-            $data["result"] = "0";
+            $data=array();
             $statusCode->get_http_message("404");
 
         }
 
         $requestContentType = $_SERVER['HTTP_ACCEPT'];
         $statusCode->set_http($requestContentType, $statusCode);
-        if (strpos($requestContentType, 'application/json') !== false) {
-            echo json_encode($data);
-
+        if (strpos($requestContentType, 'application/json') != false) {
+            echo json_encode(array('Data' => $data, 'Code' => '200', 'Message' => 'Sucess Request'));
+            exit;
+        }
+        else{
+            echo json_encode(array('Code' => '200', 'Message' => 'Sucess Request'));
+            exit;
         }
 
     }

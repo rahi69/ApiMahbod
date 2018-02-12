@@ -3,6 +3,12 @@ include_once '../config/config.php';
 
 class Gallery
 {
+    public function __construct()
+    {
+        require_once $_SERVER["DOCUMENT_ROOT"] . "/ApiMahbod/config/db.php";
+
+    }
+
     public function GetGalleryContact($type)
     {
         global $config;
@@ -13,9 +19,11 @@ class Gallery
             case 2 : $type = $config["type"][2];break;
             default: $type = $config["type"][0];break;
         }
+//        if($type==null)
+//        {
+//        }
         $statusCode = new codeStatus();
         $data = [];
-        require_once $_SERVER["DOCUMENT_ROOT"] . "/ApiMahbod/config/db.php";
         $db = new db();
         $db->connection();
 //        $page = intval($_POST['page']) - 1;
@@ -35,7 +43,7 @@ class Gallery
 
         $requestContentType = $_SERVER['HTTP_ACCEPT'];
         $statusCode->set_http($requestContentType, $statusCode);
-        if (strpos($requestContentType, 'application/json') !== false) {
+        if (strpos($requestContentType, 'application/json') != false) {
             echo json_encode($data);
 
         }

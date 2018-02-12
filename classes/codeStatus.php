@@ -7,6 +7,7 @@ class codeStatus{
         $statusMessage=$this->get_http_message($statusCode);
         header($this->httpVersoin . $statusMessage . $statusCode);
         header("Content-Type:". $contentType);
+        return true;
     }
     public function get_http_message($statusCode)
     {
