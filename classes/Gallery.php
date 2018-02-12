@@ -18,6 +18,7 @@ class Gallery
             case 1 : $type = $config["type"][1];break;
             case 2 : $type = $config["type"][2];break;
             default: $type = $config["type"][0];break;
+
         }
 //        if($type==null)
 //        {
