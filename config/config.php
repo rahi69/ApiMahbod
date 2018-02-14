@@ -5,4 +5,3 @@ $config['db']['user'] = 'root';
 $config['db']['pass'] = '';
 $config['db']['name'] = 'paint_tbl';
 
-?>
