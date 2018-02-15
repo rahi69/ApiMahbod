@@ -10,39 +10,27 @@ class aboutMe
 {
     public function __construct()
     {
+        require_once '../config/config.php';
+//        require_once '../validation/ValidationApi.php';
+        require_once '../model/AboutModel.php';
         require_once $_SERVER["DOCUMENT_ROOT"] . "/ApiMahbod/config/db.php";
-
+//        $this->Validation = new ValidationApi();
+        $this->AboutModel = new AboutModel();
     }
-    public function GetAboutMeList()
+
+    /**
+     *
+     */
+    public function GetAboutList()
     {
-        $statusCode = new codeStatus();
-        $data = [];
-        $db = new db();
-        $db->connection();
-//        $page = intval($_POST['page']) - 1;
-//        $offset = $page * 5;
-        $query = $db->query("SELECT * FROM tbl_aboutme ORDER BY id DESC");
-        $result = $query->fetch_all();
-        if ($result != null) {
-            $data= $result;
-            $statusCode->get_http_message("200");
+        $Response = $this->AboutModel->GetInformationAbout();
 
+        if ($Response == false) {
+            echo json_encode(array('Code' => '400', 'Message' => 'NotFound !!'));
+            exit;
         } else {
-            $data=array();
-            $statusCode->get_http_message("404");
-
-        }
-
-        $requestContentType = $_SERVER['HTTP_ACCEPT'];
-        $statusCode->set_http($requestContentType, $statusCode);
-        if (strpos($requestContentType, 'application/json') != false) {
-            echo json_encode(array('Data' => $data, 'Code' => '200', 'Message' => 'Sucess Request'));
+            echo json_encode(array('Data' => $Response, 'Code' => '200', 'Message' => 'Success Request'));
             exit;
         }
-        else{
-            echo json_encode(array('Code' => '200', 'Message' => 'Sucess Request'));
-            exit;
-        }
-
     }
 }
